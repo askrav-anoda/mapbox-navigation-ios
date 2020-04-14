@@ -205,9 +205,9 @@ open class NavigationViewController: UIViewController, NavigationStatusPresenter
 
         NavigationSettings.shared.distanceUnit = route.routeOptions.locale.usesMetric ? .kilometer : .mile
         
-        styleManager = StyleManager()
-        styleManager.delegate = self
-        styleManager.styles = options?.styles ?? [DayStyle(), NightStyle()]
+//        styleManager = StyleManager()
+//        styleManager.delegate = self
+//        styleManager.styles = options?.styles ?? [DayStyle(), NightStyle()]
         
         let bottomBanner = options?.bottomBanner ?? {
             let viewController = BottomBannerViewController()
@@ -607,14 +607,13 @@ extension NavigationViewController: NavigationServiceDelegate {
 extension NavigationViewController: StyleManagerDelegate {
     @objc(locationForStyleManager:)
     public func location(for styleManager: StyleManager) -> CLLocation? {
-        return nil
-//        if let location = navigationService.router.location {
-//            return location
-//        } else if let firstCoord = route.coordinates?.first {
-//            return CLLocation(latitude: firstCoord.latitude, longitude: firstCoord.longitude)
-//        } else {
-//            return nil
-//        }
+        if let location = navigationService.router.location {
+            return location
+        } else if let firstCoord = route.coordinates?.first {
+            return CLLocation(latitude: firstCoord.latitude, longitude: firstCoord.longitude)
+        } else {
+            return nil
+        }
     }
     
     @objc(styleManager:didApplyStyle:)
